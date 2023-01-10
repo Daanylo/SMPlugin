@@ -1,0 +1,6 @@
+#smplugin config
+
+#claim
+
+#prevents player from collecting free sticks. time is in seconds.
+claimwand cooldown: 60

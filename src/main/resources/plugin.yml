@@ -1,0 +1,28 @@
+name: SMPlugin
+version: '${project.version}'
+main: smplugin.smplugin.SMPlugin
+api-version: 1.19
+prefix: SMPlugin
+authors: [ Daanylo ]
+description: A Plugin For SMP Servers!
+commands:
+  claimwand:
+    description: Gives player a claim wand.
+    usage: /claimwand
+    permission: claimwand
+    permission-message: You do not have permission.
+    aliases: cw
+  claim:
+    description: Claims
+    usage: /claim
+  spawn:
+    description: Sends player to spawn.
+    usage: /spawn
+  setspawn:
+    description: Sets the spawn.
+    usage: /setspawn
+    permission: setspawn
+    permission-message: You do not have permission.
+  minmax:
+    description: Gives the min and max points of selection.
+    usage: /minmax
