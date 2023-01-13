@@ -1,49 +1,17 @@
 package smplugin.smplugin.handlers;
 
-import org.bukkit.block.Block;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import smplugin.smplugin.events.JoinEvent;
+import smplugin.smplugin.selections.Selection;
+
 
 public class SelectionHandler implements Listener {
-    public static class Selection {
-        String username = "username";
-        int xA;
-        int zA;
-        int xB;
-        int zB;
-        public void setUsername(String username) {
-            this.username = username;
-        }
-        public int getxA() {
-            return xA;
-        }
-        public int getzA() {
-            return zA;
-        }
-        public int getxB() {
-            return xB;
-        }
-        public int getzB() {
-            return zB;
-        }
-        public void setxA(int xA) {
-            this.xA = xA;
-        }
-        public void setzA(int zA) {
-            this.zA = zA;
-        }
-        public void setxB(int xB) {
-            this.xB = xB;
-        }
-        public void setzB(int zB) {
-            this.zB = zB;
-        }
-    }
-    static Selection selection = new Selection();
 
     @EventHandler
     public static void regionSelect(PlayerInteractEvent event) {
@@ -56,54 +24,49 @@ public class SelectionHandler implements Listener {
 
                 if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("Claim Wand")) {
 
-                    selection.setUsername(player.getName());
+                    Selection selection = JoinEvent.selections.get(player.getUniqueId());
 
                     if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                        Block a = event.getClickedBlock();
-                        selection.setxA(a.getLocation().getBlockX());
-                        selection.setzA(a.getLocation().getBlockZ());
-                            if (selection.getxB() == 0 & selection.getzB() == 0) {
-                                player.sendMessage("[Point A] X:" + a.getLocation().getBlockX() + " Z:" + a.getLocation().getBlockZ());
-                            }
-                            else {
-                                int sideX = Math.abs((selection.getxA()-selection.getxB())) + 1;
-                                int sideZ = Math.abs((selection.getzA()-selection.getzB())) + 1;
-                                int area = sideX * sideZ;
-                                player.sendMessage("[Point A] X:" + a.getLocation().getBlockX() + " Z:" + a.getLocation().getBlockZ() + " (" + area + ")");
+                        Location a = event.getClickedBlock().getLocation();
+                            try {
+                                selection.setxA(a.getBlockX());
+                                selection.setzA(a.getBlockZ());
+
+                                if (selection.getxB() == 0 & selection.getzB() == 0) {
+                                    player.sendMessage("[Point A] X:" + a.getBlockX() + " Z:" + a.getBlockZ());
+                                }
+                                else {
+                                    int sideX = Math.abs((selection.getxA()-selection.getxB())) + 1;
+                                    int sideZ = Math.abs((selection.getzA()-selection.getzB())) + 1;
+                                    int area = sideX * sideZ;
+                                    player.sendMessage("[Point A] X:" + a.getBlockX() + " Z:" + a.getBlockZ() + " (" + area + ")");
+                                }
+                            } catch (Exception e) {
+                                player.sendMessage("An error occured. Please relog.");
                             }
                         }
                     if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                        Block b = event.getClickedBlock();
-                        selection.setxB(b.getLocation().getBlockX());
-                        selection.setzB(b.getLocation().getBlockZ());
-                            if (selection.getxA() == 0 & selection.getzA() == 0) {
-                                player.sendMessage("[Point B] X:" + b.getLocation().getBlockX() + " Z:" + b.getLocation().getBlockZ());
-                            }
-                            else {
-                                int sideX = Math.abs((selection.getxA()-selection.getxB())) + 1;
-                                int sideZ = Math.abs((selection.getzA()-selection.getzB())) + 1;
-                                int area = sideX * sideZ;
-                                player.sendMessage("[Point B] X:" + b.getLocation().getBlockX() + " Z:" + b.getLocation().getBlockZ() + " (" + area + ")");
+                        Location b = event.getClickedBlock().getLocation();
+                            try {
+                            selection.setxB(b.getBlockX());
+                            selection.setzB(b.getBlockZ());
+
+                                if (selection.getxA() == 0 & selection.getzA() == 0) {
+                                    player.sendMessage("[Point B] X:" + b.getBlockX() + " Z:" + b.getBlockZ());
+                                }
+                                else {
+                                    int sideX = Math.abs((selection.getxA()-selection.getxB())) + 1;
+                                    int sideZ = Math.abs((selection.getzA()-selection.getzB())) + 1;
+                                    int area = sideX * sideZ;
+                                    player.sendMessage("[Point B] X:" + b.getBlockX() + " Z:" + b.getBlockZ() + " (" + area + ")");
+                                }
+                            } catch (Exception e) {
+                                player.sendMessage("An error occured. Please relog.");
                             }
                     }
                 }
             }
         }
-    }
-    public int getMinX() {
-        return Math.min(selection.getxA(), selection.getxB());
-    }
-    public int getMaxX() {
-        return Math.max(selection.getxA(), selection.getxB());
-    }
-    public int getMinZ() {
-        return Math.min(selection.getzA(), selection.getzB());
-    }
-    public int getMaxZ() {
-        return Math.max(selection.getzA(), selection.getzB());
-    }
-    public String getUsername() {
-        return selection.username;
     }
 }
 

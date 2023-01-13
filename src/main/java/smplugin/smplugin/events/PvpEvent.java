@@ -11,7 +11,7 @@ public class PvpEvent implements Listener {
 
     @EventHandler
     public void onPlayerDamage (EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player) {
+        if (event.getDamager() instanceof Player & event.getEntity() instanceof Player) {
             event.setCancelled(true);
         }
     }
