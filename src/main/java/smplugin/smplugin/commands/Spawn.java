@@ -1,6 +1,5 @@
 package smplugin.smplugin.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,11 +8,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import smplugin.smplugin.SMPlugin;
-import smplugin.smplugin.events.JoinEvent;
+
 
 public class Spawn implements CommandExecutor, Listener {
 
@@ -52,10 +49,5 @@ public class Spawn implements CommandExecutor, Listener {
         if (!player.hasPlayedBefore()) {
             teleportSpawn(player);
         }
-    }
-    @EventHandler
-    public void onRespawn (PlayerRespawnEvent event) {
-        Player player = event.getPlayer();
-        teleportSpawn(player);
     }
 }

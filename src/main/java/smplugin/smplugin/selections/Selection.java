@@ -1,29 +1,24 @@
 package smplugin.smplugin.selections;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
+import org.bukkit.Location;
 
 public class Selection {
-
-
-    private UUID uuid;
     private int xA,zA,xB,zB;
+    private String territoryname;
 
-    public Selection(int xA, int zA, int xB, int zB) {
+    public Selection(String territoryname, int xA, int zA, int xB, int zB) {
+        this.territoryname = territoryname;
         this.xA = xA;
         this.zA = zA;
         this.xB = xB;
         this.zB = zB;
     }
-    public UUID getUuid() {
-        return uuid;
+    public void setTerritoryName(String territoryname) {
+        this.territoryname = territoryname;
     }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public String getTerritoryname() {
+        return territoryname;
     }
-
     public int getxA() {
         return xA;
     }
@@ -54,6 +49,26 @@ public class Selection {
 
     public void setzB(int zB) {
         this.zB = zB;
+    }
+
+    public int getArea(){
+        int sideX = Math.abs((getxA()-getxB())) + 1;
+        int sideZ = Math.abs((getzA()-getzB())) + 1;
+        return sideX * sideZ;
+    }
+
+    public boolean isWithin(Location currentLocation) {
+        int xA = getxA();
+        int xB = getxB();
+        int zA = getzA();
+        int zB = getzB();
+        int locX = currentLocation.getBlockX();
+        int locZ = currentLocation.getBlockZ();
+        int minX = Math.min(xA, xB);
+        int maxX = Math.max(xA, xB);
+        int minZ = Math.min(zA, zB);
+        int maxZ = Math.max(zA, zB);
+        return (minX <= locX && locX <= maxX) && (minZ <= locZ && locZ <= maxZ);
     }
 
 }

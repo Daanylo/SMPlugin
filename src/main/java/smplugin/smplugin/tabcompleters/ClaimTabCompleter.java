@@ -4,8 +4,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import smplugin.smplugin.SMPlugin;
 import smplugin.smplugin.handlers.TerritoryHandler;
 
 import java.lang.reflect.Array;

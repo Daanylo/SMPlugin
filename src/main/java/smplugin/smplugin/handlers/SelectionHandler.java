@@ -10,13 +10,22 @@ import org.bukkit.inventory.EquipmentSlot;
 import smplugin.smplugin.events.JoinEvent;
 import smplugin.smplugin.selections.Selection;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 
 public class SelectionHandler implements Listener {
+    public static HashMap<UUID, Selection> selections = new HashMap<>();
 
     @EventHandler
-    public static void regionSelect(PlayerInteractEvent event) {
+    public void regionSelect(PlayerInteractEvent event) {
 
         Player player = event.getPlayer();
+
+        if (!selections.containsKey(player.getUniqueId())) {
+            selections.put(event.getPlayer().getUniqueId(), new Selection(null, 0, 0, 0, 0));
+        }
+
 
         if ((event.getHand() == EquipmentSlot.HAND)) {
 
@@ -24,7 +33,7 @@ public class SelectionHandler implements Listener {
 
                 if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("Claim Wand")) {
 
-                    Selection selection = JoinEvent.selections.get(player.getUniqueId());
+                    Selection selection = selections.get(player.getUniqueId());
 
                     if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
                         Location a = event.getClickedBlock().getLocation();
@@ -36,10 +45,7 @@ public class SelectionHandler implements Listener {
                                     player.sendMessage("[Point A] X:" + a.getBlockX() + " Z:" + a.getBlockZ());
                                 }
                                 else {
-                                    int sideX = Math.abs((selection.getxA()-selection.getxB())) + 1;
-                                    int sideZ = Math.abs((selection.getzA()-selection.getzB())) + 1;
-                                    int area = sideX * sideZ;
-                                    player.sendMessage("[Point A] X:" + a.getBlockX() + " Z:" + a.getBlockZ() + " (" + area + ")");
+                                    player.sendMessage("[Point A] X:" + a.getBlockX() + " Z:" + a.getBlockZ() + " (" + selection.getArea() + ")");
                                 }
                             } catch (Exception e) {
                                 player.sendMessage("An error occured. Please relog.");
@@ -55,10 +61,7 @@ public class SelectionHandler implements Listener {
                                     player.sendMessage("[Point B] X:" + b.getBlockX() + " Z:" + b.getBlockZ());
                                 }
                                 else {
-                                    int sideX = Math.abs((selection.getxA()-selection.getxB())) + 1;
-                                    int sideZ = Math.abs((selection.getzA()-selection.getzB())) + 1;
-                                    int area = sideX * sideZ;
-                                    player.sendMessage("[Point B] X:" + b.getBlockX() + " Z:" + b.getBlockZ() + " (" + area + ")");
+                                    player.sendMessage("[Point B] X:" + b.getBlockX() + " Z:" + b.getBlockZ() + " (" + selection.getArea() + ")");
                                 }
                             } catch (Exception e) {
                                 player.sendMessage("An error occured. Please relog.");
